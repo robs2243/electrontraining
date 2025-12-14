@@ -90,7 +90,7 @@ input:checked + .slider-round:before { transform: translateX(26px); }
 
 /* Tabulator Styling für dunkles Theme */
 #data-table {
-    width: 515px;
+    width: 514px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
     overflow: hidden;

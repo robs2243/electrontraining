@@ -143,6 +143,7 @@ function initTable() {
         ]
     });
 
+    /*
     // ===== EVENT LISTENER: Edit-Modus =====
     // Wird ausgelöst, wenn eine Zelle in den Edit-Modus geht
     table.on("cellEditing", function(cell) {
@@ -170,7 +171,7 @@ function initTable() {
         }
     });
     
-    /*
+
     // Wird ausgelöst, wenn das Editieren erfolgreich abgeschlossen ist
     table.on("cellEdited", function(cell) {
         console.log("Edit-Modus beendet - gespeichert!");
@@ -200,8 +201,8 @@ function initTable() {
             tabulatorElement.style.height = '165px';  // zurück auf 165px
         }
     });
-
-    /*
+    */
+    
     // ===== EVENT LISTENER: Cell Click =====
     // Wird ausgelöst, wenn man auf eine Zelle klickt
     table.on("cellClick", function(e, cell) {
@@ -251,7 +252,7 @@ function initTable() {
             `;
         }
     });
-    */
+    
 
     console.log("Tabulator Tabelle initialisiert!");
 }
