@@ -90,10 +90,11 @@ input:checked + .slider-round:before { transform: translateX(26px); }
 
 /* Tabulator Styling für dunkles Theme */
 #data-table {
-    width: 510px;
+    width: 515px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
     overflow: hidden;
+    transition: width 0.2s ease;  /* Smooth animation beim Größenwechsel */
 }
 
 /* Tabulator Header dunkler machen */

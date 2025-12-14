@@ -133,7 +133,7 @@ function initTable() {
     const table = new Tabulator("#data-table", {
         data: tableData,              // Die Dummy-Daten laden
         layout: "fitColumns",         // Spalten automatisch anpassen
-        height: "165px",              // Feste Höhe der Tabelle
+        height: "170px",              // Feste Höhe der Tabelle
         columns: [                    // Spalten definieren
             { title: "ID", field: "id", width: 60 },
             { title: "Name", field: "name", width: 150, editor: "input" },  // ← Editierbar!
@@ -143,6 +143,65 @@ function initTable() {
         ]
     });
 
+    // ===== EVENT LISTENER: Edit-Modus =====
+    // Wird ausgelöst, wenn eine Zelle in den Edit-Modus geht
+    table.on("cellEditing", function(cell) {
+        console.log("Edit-Modus gestartet!");
+
+        // Info-Box aktualisieren (HIER statt im cellClick!)
+        const rowData = cell.getRow().getData();
+        const infoBox = document.getElementById('info-box');
+        infoBox.innerHTML = `
+            <span style="color: #ff9500;">EDIT-MODUS</span><br><br>
+            Name: ${rowData.name}<br>
+            Alter: ${rowData.alter}<br>
+            Stadt: ${rowData.stadt}<br>
+            Status: ${rowData.status}
+        `;
+
+        // Tabelle größer machen (nur CSS, KEIN table.setHeight()!)
+        const tableElement = document.getElementById('data-table');
+        tableElement.style.width = '600px';  // von 510px auf 515px
+
+        // Höhe direkt per CSS setzen (auf dem inneren Tabulator-Element)
+        const tabulatorElement = tableElement.querySelector('.tabulator');
+        if (tabulatorElement) {
+            tabulatorElement.style.height = '200px';  // von 165px auf 170px
+        }
+    });
+    
+    /*
+    // Wird ausgelöst, wenn das Editieren erfolgreich abgeschlossen ist
+    table.on("cellEdited", function(cell) {
+        console.log("Edit-Modus beendet - gespeichert!");
+
+        // Tabelle zurück auf normale Größe
+        const tableElement = document.getElementById('data-table');
+        tableElement.style.width = '600px';  // zurück auf 510px
+
+        // Höhe zurücksetzen (direkt per CSS)
+        const tabulatorElement = tableElement.querySelector('.tabulator');
+        if (tabulatorElement) {
+            tabulatorElement.style.height = '200px';  // zurück auf 165px
+        }
+    });
+
+    // Wird ausgelöst, wenn das Editieren abgebrochen wird (ESC)
+    table.on("cellEditCancelled", function(cell) {
+        console.log("Edit-Modus abgebrochen!");
+
+        // Tabelle zurück auf normale Größe
+        const tableElement = document.getElementById('data-table');
+        tableElement.style.width = '510px';  // zurück auf 510px
+
+        // Höhe zurücksetzen (direkt per CSS)
+        const tabulatorElement = tableElement.querySelector('.tabulator');
+        if (tabulatorElement) {
+            tabulatorElement.style.height = '165px';  // zurück auf 165px
+        }
+    });
+
+    /*
     // ===== EVENT LISTENER: Cell Click =====
     // Wird ausgelöst, wenn man auf eine Zelle klickt
     table.on("cellClick", function(e, cell) {
@@ -158,16 +217,9 @@ function initTable() {
         // Damit das Dropdown und Editieren normal funktioniert
         const columnDef = column.getDefinition();
         if (columnDef.editor) {
-            // Diese Zelle ist editierbar - nur Info-Box aktualisieren, kein Alert
-            const infoBox = document.getElementById('info-box');
-            infoBox.innerHTML = `
-                Ausgewählt:<br>
-                Name: ${rowData.name}<br>
-                Alter: ${rowData.alter}<br>
-                Stadt: ${rowData.stadt}<br>
-                Status: ${rowData.status}
-            `;
-            return; // Nicht weitermachen
+            // Diese Zelle ist editierbar - nichts machen, damit Edit-Modus funktioniert
+            // Info-Box wird im cellEditing Event aktualisiert
+            return; // Sofort beenden, KEINE DOM-Manipulation!
         }
 
         // Nur für nicht-editierbare Zellen (z.B. ID):
@@ -199,6 +251,7 @@ function initTable() {
             `;
         }
     });
+    */
 
     console.log("Tabulator Tabelle initialisiert!");
 }
