@@ -1,6 +1,24 @@
 const fs = require('fs');
 const path = require('path');
 
+// Tabulator CSS laden (lokal aus node_modules)
+const tabulatorCssPath = path.join(__dirname, 'node_modules', 'tabulator-tables', 'dist', 'css', 'tabulator.min.css');
+const linkElement = document.createElement('link');
+linkElement.rel = 'stylesheet';
+linkElement.href = tabulatorCssPath;
+document.head.appendChild(linkElement);
+
+// Tabulator JavaScript laden (lokal aus node_modules)
+const tabulatorJsPath = path.join(__dirname, 'node_modules', 'tabulator-tables', 'dist', 'js', 'tabulator.min.js');
+const scriptElement = document.createElement('script');
+scriptElement.src = tabulatorJsPath;
+scriptElement.onload = function() {
+    console.log('Tabulator JavaScript geladen!');
+    // Tabelle initialisieren NACH dem Laden von Tabulator
+    initTable();
+};
+document.head.appendChild(scriptElement);
+
 // Pfad zur JSON Datei bestimmen
 const layoutPath = path.join(__dirname, 'layout.json');
 
@@ -95,4 +113,92 @@ saveButton.addEventListener('click', function() {
     });
 });
 
-//test
+// ===== TABULATOR TABELLE =====
+
+// Dummy-Daten für die Tabelle
+const tableData = [
+    { id: 1, name: "Max Mustermann", alter: 28, stadt: "Berlin", status: "Aktiv" },
+    { id: 2, name: "Anna Schmidt", alter: 34, stadt: "München", status: "Aktiv" },
+    { id: 3, name: "Peter Klein", alter: 42, stadt: "Hamburg", status: "Inaktiv" },
+    { id: 4, name: "Lisa Müller", alter: 25, stadt: "Köln", status: "Aktiv" },
+    { id: 5, name: "Tom Wagner", alter: 31, stadt: "Frankfurt", status: "Aktiv" }
+];
+
+// Funktion zum Initialisieren der Tabelle
+// Diese wird aufgerufen, NACHDEM Tabulator geladen wurde
+function initTable() {
+    console.log('Initialisiere Tabelle...');
+
+    // Tabulator ist jetzt als globale Variable verfügbar
+    const table = new Tabulator("#data-table", {
+        data: tableData,              // Die Dummy-Daten laden
+        layout: "fitColumns",         // Spalten automatisch anpassen
+        height: "165px",              // Feste Höhe der Tabelle
+        columns: [                    // Spalten definieren
+            { title: "ID", field: "id", width: 60 },
+            { title: "Name", field: "name", width: 150, editor: "input" },  // ← Editierbar!
+            { title: "Alter", field: "alter", width: 80, editor: "input" },  // ← Editierbar!
+            { title: "Stadt", field: "stadt", width: 120, editor: "input" },  // ← Editierbar!
+            { title: "Status", field: "status", width: 100, editor: "list", editorParams: { values: ["Aktiv", "Inaktiv"] } }  // ← Dropdown!
+        ]
+    });
+
+    // ===== EVENT LISTENER: Cell Click =====
+    // Wird ausgelöst, wenn man auf eine Zelle klickt
+    table.on("cellClick", function(e, cell) {
+        // 'cell' ist die geklickte Zelle
+        // 'e' ist das originale Click-Event
+
+        const row = cell.getRow();           // Die ganze Zeile
+        const column = cell.getColumn();     // Die Spalte
+        const value = cell.getValue();       // Der Wert in der Zelle
+        const rowData = row.getData();       // Alle Daten der Zeile
+
+        // Wenn die Zelle editierbar ist (hat einen Editor), nicht reagieren
+        // Damit das Dropdown und Editieren normal funktioniert
+        const columnDef = column.getDefinition();
+        if (columnDef.editor) {
+            // Diese Zelle ist editierbar - nur Info-Box aktualisieren, kein Alert
+            const infoBox = document.getElementById('info-box');
+            infoBox.innerHTML = `
+                Ausgewählt:<br>
+                Name: ${rowData.name}<br>
+                Alter: ${rowData.alter}<br>
+                Stadt: ${rowData.stadt}<br>
+                Status: ${rowData.status}
+            `;
+            return; // Nicht weitermachen
+        }
+
+        // Nur für nicht-editierbare Zellen (z.B. ID):
+        console.log("=== ZELLE GEKLICKT ===");
+        console.log("Spalte:", column.getField());  // z.B. "id"
+        console.log("Wert:", value);                // z.B. 1
+        console.log("Ganze Zeile:", rowData);       // { id: 1, name: "Max Mustermann", ... }
+
+        // Info-Box aktualisieren (KEIN ALERT - das würde Tabulator stören!)
+        const infoBox = document.getElementById('info-box');
+        if (column.getField() === "id") {
+            // Spezielle Nachricht bei ID-Klick
+            infoBox.innerHTML = `
+                <span style="color: #00d4ff;">ID ${value} angeklickt!</span><br><br>
+                Ausgewählt:<br>
+                Name: ${rowData.name}<br>
+                Alter: ${rowData.alter}<br>
+                Stadt: ${rowData.stadt}<br>
+                Status: ${rowData.status}
+            `;
+        } else {
+            // Normale Info-Anzeige
+            infoBox.innerHTML = `
+                Ausgewählt:<br>
+                Name: ${rowData.name}<br>
+                Alter: ${rowData.alter}<br>
+                Stadt: ${rowData.stadt}<br>
+                Status: ${rowData.status}
+            `;
+        }
+    });
+
+    console.log("Tabulator Tabelle initialisiert!");
+}

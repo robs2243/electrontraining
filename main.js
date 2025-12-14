@@ -16,6 +16,9 @@ function createWindow() {
     // Menüleiste ausblenden (damit es sauberer aussieht bei fixen 800x600)
     win.setMenu(null);
 
+    // Developer Tools automatisch öffnen (hilfreich beim Entwickeln!)
+    //win.webContents.openDevTools();
+
     win.loadFile('index.html');
 }
 

@@ -6,6 +6,7 @@
   "action-btn": { "x": 300, "y": 200 },
   "cancel-btn": { "x": 450, "y": 200 },
   "slider-container": { "x": 300, "y": 280 },
-  "info-box": { "x": 40, "y": 350 },
-  "toggle-switch": { "x": 600, "y": 40 }
+  "info-box": { "x": 575, "y": 110 },
+  "toggle-switch": { "x": 600, "y": 40 },
+  "data-table": { "x": 40, "y": 350 }
 }
