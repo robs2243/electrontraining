@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Electron UI</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 id="main-title" class="ui-element">System Control</h1>
+
+    <div id="status-panel" class="ui-element card">
+        <h3>Status</h3>
+        <div class="status-indicator active">Online</div>
+        <p>System stable.</p>
+    </div>
+
+    <label id="control-label" class="ui-element label-text">Benutzerkonfiguration:</label>
+
+    <input type="text" id="username-input" class="ui-element text-input" placeholder="Benutzername eingeben...">
+
+    <button id="action-btn" class="ui-element btn btn-primary">Speichern</button>
+    <button id="cancel-btn" class="ui-element btn btn-secondary">Abbrechen</button>
+
+    <div id="slider-container" class="ui-element">
+        <label>Leistung: <span id="val">50%</span></label><br>
+        <input type="range" min="1" max="100" value="50" class="slider" id="percent-slider">
+    </div>
+
+    <div id="info-box" class="ui-element info-area">
+        Logs werden hier angezeigt...<br>
+        Warte auf Eingabe.
+    </div>
+    
+    <div id="toggle-switch" class="ui-element">
+        <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider-round"></span>
+        </label>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

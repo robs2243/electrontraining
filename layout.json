@@ -1,0 +1,11 @@
+{
+  "main-title": { "x": 40, "y": 30 },
+  "status-panel": { "x": 40, "y": 100 },
+  "control-label": { "x": 300, "y": 100 },
+  "username-input": { "x": 300, "y": 140 },
+  "action-btn": { "x": 300, "y": 200 },
+  "cancel-btn": { "x": 450, "y": 200 },
+  "slider-container": { "x": 300, "y": 280 },
+  "info-box": { "x": 40, "y": 350 },
+  "toggle-switch": { "x": 600, "y": 40 }
+}
