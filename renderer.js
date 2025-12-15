@@ -106,12 +106,14 @@ slider.addEventListener('input', function() {
 //wenn speichern-btn gedrück, schreib hello world mit fs in datei auf festplatte
 saveButton.addEventListener('click', function() {
     // Pfad definieren (im gleichen Ordner wie renderer.js)
+    const text = document.getElementById("username-input");
     const file = path.join(__dirname, 'test.txt');
-    fs.writeFile(file, 'hello world', (err) => {
+    fs.writeFile(file, text.value, (err) => {
         if (err) console.error('Fehler beim Speichern:', err);
         else console.log('Datei erfolgreich gespeichert:', file);
     });
 });
+
 
 // ===== TABULATOR TABELLE =====
 
