@@ -21,6 +21,9 @@ document.head.appendChild(scriptElement);
 
 // Pfad zur JSON Datei bestimmen
 const layoutPath = path.join(__dirname, 'layout.json');
+const dataPath = path.join(__dirname, 'data.json');
+
+let table; // Globale Referenz für die Tabulator-Instanz
 
 function applyLayout() {
     // 1. JSON Datei lesen
@@ -89,6 +92,8 @@ const valueLabel = document.getElementById('val');
 const saveButton = document.getElementById('action-btn');
 // abbrechen-button referenz holen
 const cancelButton = document.getElementById('cancel-btn');
+// daten-laden-button referenz holen
+const loadDataButton = document.getElementById('load-data-btn');
 
 
 // Schritt 3: Auf Änderungen reagieren
@@ -114,6 +119,29 @@ saveButton.addEventListener('click', function() {
     });
 });
 
+// Daten aus JSON laden und in Tabelle schreiben
+loadDataButton.addEventListener('click', function() {
+    fs.readFile(dataPath, 'utf-8', (err, data) => {
+        if (err) {
+            console.error('Fehler beim Laden der Daten:', err);
+            return;
+        }
+        try {
+            const jsonData = JSON.parse(data);
+            if (table) {
+                table.setData(jsonData);
+                console.log('Tabellendaten erfolgreich aus JSON aktualisiert!');
+                
+                // Info-Box aktualisieren
+                const infoBox = document.getElementById('info-box');
+                infoBox.innerHTML = `<span style="color: #4cd964;">Daten geladen!</span><br>${jsonData.length} Zeilen importiert.`;
+            }
+        } catch (parseErr) {
+            console.error('Fehler beim Parsen der JSON-Daten:', parseErr);
+        }
+    });
+});
+
 
 // ===== TABULATOR TABELLE =====
 
@@ -132,7 +160,7 @@ function initTable() {
     console.log('Initialisiere Tabelle...');
 
     // Tabulator ist jetzt als globale Variable verfügbar
-    const table = new Tabulator("#data-table", {
+    table = new Tabulator("#data-table", {
         data: tableData,              // Die Dummy-Daten laden
         layout: "fitColumns",         // Spalten automatisch anpassen
         height: "170px",              // Feste Höhe der Tabelle
