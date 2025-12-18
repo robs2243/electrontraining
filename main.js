@@ -17,7 +17,7 @@ function createWindow() {
     win.setMenu(null);
 
     // Developer Tools automatisch öffnen (hilfreich beim Entwickeln!)
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
 
     win.loadFile('index.html');
 }
