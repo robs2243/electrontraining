@@ -94,6 +94,8 @@ const saveButton = document.getElementById('action-btn');
 const cancelButton = document.getElementById('cancel-btn');
 // daten-laden-button referenz holen
 const loadDataButton = document.getElementById('load-data-btn');
+// daten-speichern-button referenz holen
+const saveDataButton = document.getElementById('save-data-btn');
 
 
 // Schritt 3: Auf Änderungen reagieren
@@ -139,6 +141,33 @@ loadDataButton.addEventListener('click', function() {
         } catch (parseErr) {
             console.error('Fehler beim Parsen der JSON-Daten:', parseErr);
         }
+    });
+});
+
+// Aktuelle Tabellendaten zurück in die JSON Datei speichern
+saveDataButton.addEventListener('click', function() {
+    if (!table) return;
+
+    // 1. Daten aus der Tabelle holen
+    const currentData = table.getData();
+
+    // 2. In JSON umwandeln (mit Einrückung für Lesbarkeit)
+    const jsonString = JSON.stringify(currentData, null, 4);
+
+    // 3. Datei schreiben
+    fs.writeFile(dataPath, jsonString, (err) => {
+        if (err) {
+            console.error('Fehler beim Speichern der Tabelle:', err);
+            const infoBox = document.getElementById('info-box');
+            infoBox.innerHTML = `<span style="color: #ff3b30;">Speicherfehler!</span><br>${err.message}`;
+            return;
+        }
+
+        console.log('Tabelle erfolgreich in data.json gespeichert!');
+        
+        // Info-Box aktualisieren
+        const infoBox = document.getElementById('info-box');
+        infoBox.innerHTML = `<span style="color: #00d4ff;">Tabelle gespeichert!</span><br>${currentData.length} Zeilen in data.json gesichert.`;
     });
 });
 

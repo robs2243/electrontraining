@@ -1,7 +1,37 @@
 [
-    { "id": 10, "name": "Julia Sommer", "alter": 29, "stadt": "Berlin", "status": "Aktiv" },
-    { "id": 11, "name": "Markus Winter", "alter": 45, "stadt": "Dresden", "status": "Inaktiv" },
-    { "id": 12, "name": "Sarah Herbst", "alter": 22, "stadt": "Leipzig", "status": "Aktiv" },
-    { "id": 13, "name": "Christian Frühling", "alter": 38, "stadt": "Stuttgart", "status": "Aktiv" },
-    { "id": 14, "name": "Elena Wolke", "alter": 31, "stadt": "Bremen", "status": "Inaktiv" }
+    {
+        "id": 10,
+        "name": "Robert Reinhardt",
+        "alter": 29,
+        "stadt": "Berlin",
+        "status": "Aktiv"
+    },
+    {
+        "id": 11,
+        "name": "Markus Winter",
+        "alter": 45,
+        "stadt": "Dresden",
+        "status": "Inaktiv"
+    },
+    {
+        "id": 12,
+        "name": "Sarah Herbst",
+        "alter": 22,
+        "stadt": "Leipzig",
+        "status": "Aktiv"
+    },
+    {
+        "id": 13,
+        "name": "Christian Frühling",
+        "alter": 38,
+        "stadt": "Stuttgart",
+        "status": "Aktiv"
+    },
+    {
+        "id": 14,
+        "name": "Elena Wolke",
+        "alter": 31,
+        "stadt": "Bremen",
+        "status": "Inaktiv"
+    }
 ]
